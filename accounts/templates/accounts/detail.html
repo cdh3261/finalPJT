@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+<h2 style="color:white;">아이디 : {{user_info.username}}</h2>
+<hr style="border:solid 0.7px white;">
+<h3 style="color:white;">작성한 평점 정보</h3>
+<br>
+{% for review in user_info.review_set.all %}
+  <div style="display: inline; text-align:left;">
+    <div><a class="" href="{% url 'movies:detail' review.movie.id %}"><font size="5rem" color="green">{{review.movie.title}}</font></a></div>
+    <h5 class="d-inline" style="color:white;">한줄평 : {{review.content}}</h5>
+    &nbsp;&nbsp;&nbsp;
+    <h5 class="d-inline" style="color:white;">평점 : {{review.score}} 점</h5>
+    <hr style="border:dashed 0.5px white;">
+  </div>
+{% endfor %}
+<br>
+<div style="display: inline;">
+  <h5 class="d-inline" style="color:white;">팔로워: {{user_info.followers.all | length}}</h5>
+  &nbsp;&nbsp;&nbsp;
+  <h5 class="d-inline" style="color:white;">팔로잉: {{user_info.followings.all | length}}</h5>
+</div>
+{% if user.is_authenticated and user != user_info %}
+  {% if user in user_info.followers.all %}
+    <a href="{% url 'accounts:follow' user_info.id %}" style="color:white;">팔로우취소</a>
+  {% else %}
+    <a href="{% url 'accounts:follow' user_info.id %}" style="color:white;">팔로우하기</a>
+  {% endif %}
+{% endif %}
+<br>
+<br>
+<h5 style="color:white;">팔로워</h5>
+{% for user in user_info.followers.all %}
+  <a href="{% url 'accounts:detail' user.id %}" class="d-inline" style="color:white;">{{user}}</a>
+{% endfor %}
+<br>
+<br>
+<h5 style="color:white;">팔로잉</h5>
+{% for user in user_info.followings.all %}
+  <a href="{% url 'accounts:detail' user.id %}" class="d-inline" style="color:white;">{{user}}</a>
+{% endfor %}
+<hr style="border:solid 0.7px white;">
+<h3 style="color:white;">좋아하는 영화</h3>
+<div class="row">
+{% for movie in user_info.like_movies.all %}
+  <div class="card col-3 my-3 mx-1" style="width: 24rem;">
+    <a href="{% url 'movies:detail' movie.id %}"><img src="{{movie.poster_url}}" class="card-img-top" alt="..."></a>
+    <div class="card-body">
+      <h5 class="card-title">{{movie.title}}</h5>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<hr>
+{% endblock %}

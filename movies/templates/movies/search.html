@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load bootstrap_pagination %}
+
+{% block body %}
+  <div class="row">
+    {% for movie in movies %}
+      <div class="card mr-3 mt-3"  style="width: 20rem;">
+        <a href="{% url 'movies:detail' movie.id %}"><img src="{{movie.poster_url}}" class="card-img-top" alt="..."></a>
+        <div class="card-body">
+          {% if movie.title == "알라딘" %}
+            <h5 class="card-title d-inline">🧞‍♂️ {{movie.title}} </h5>
+            {% for title, score in scores.items %}
+              {% if title == "알라딘" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "기생충" %}
+            <h5 class="card-title d-inline">🐛 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "기생충" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "조커" %}
+            <h5 class="card-title d-inline">🃏 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "조커" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "라이온 킹" %}
+            <h5 class="card-title d-inline">🦁 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "라이온 킹" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "토이 스토리 4" %}
+            <h5 class="card-title d-inline">🤖 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "토이 스토리 4" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "블랙머니" %}
+            <h5 class="card-title d-inline">💰 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "블랙머니" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.title == "스파이더맨: 파 프롬 홈" %}
+            <h5 class="card-title d-inline">🕷 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == "스파이더맨: 파 프롬 홈" %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.genre == "멜로/로맨스" %}
+            <h5 class="card-title d-inline">💏 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == movie.title %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% elif movie.genre == "스릴러" %}
+            <h5 class="card-title d-inline">👁 {{movie.title}}</h5>
+            {% for title, score in scores.items %}
+              {% if title == movie.title %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+          <h5 class="card-title d-inline">{{movie.title}}</h5>
+          {% for title, score in scores.items %}
+              {% if title == movie.title %}
+                {% if score != 0 %}
+                  <h5 class='d-inline' style="float:right;"><small>⭐ {{score}}</small></h5>
+                {%endif%}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block bodyt %}
+  {% bootstrap_paginate movies %}
+{% endblock %}
+
+{%block body2%}
+  <h2 style="color:white;">영화검색</h2>
+  <form action="{%url 'movies:search' %}" method="post" class="form-inline my-2 my-lg-0">
+    {%csrf_token%}
+    <select name="target" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+      <!-- <option selected value="title" >Choose</option> -->
+      <option value="title">제목</option>
+      <option value="genre">장르</option>
+    </select>
+    <input class="form-control mr-sm-2" type="search" placeholder="키워드를 입력해주세요." name="keyword">
+    <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <br>
+  <h3 class="mt-5" style="color:white;">추천영화</h3>
+  <br>
+  <p><a href="{% url 'movies:detail' first.id %}" style="color:white; text-decoration:none;">🥇{{first.title}}</a></p>
+  <p><a href="{% url 'movies:detail' second.id %}" style="color:white; text-decoration:none;">🥈{{second.title}}</a></p>
+  <p><a href="{% url 'movies:detail' third.id %}" style="color:white; text-decoration:none;">🥉{{third.title}}</a></p>
+{%endblock%}

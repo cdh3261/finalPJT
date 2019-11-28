@@ -1,0 +1,74 @@
+{% load static %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="shortcut icon" href="{% static 'slate.jpg' %}">
+  <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara|Sunflower:300&display=swap" rel="stylesheet">
+  {% bootstrap_css %}
+  <style>
+    li {
+      font-family: 'Hind Vadodara', sans-serif;
+    }
+    div {
+      font-family: 'Sunflower', sans-serif;
+    }
+    body {
+      background-color:rgb(37, 36, 37)
+    }
+  </style>
+</head>
+<body >
+  <!-- background="{% static 'main.webp' %}" -->
+    <div class="w-100 position-fixed " style="z-index: 999;">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'movies:index' %}">🍿Home🥤</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNavAltMarkup">
+          <img src="{% static 'slate.jpg' %}" width="45px" height="35px" style="padding-right:10px ;">
+          <h5 class="navbar-brand">오늘 영화 뭐볼까??</h5>
+        </div>
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
+          <div class="navbar-nav ">
+            
+            {% if user.is_authenticated %}
+              <h5 class="nav-item nav-link"><strong>{{user}}님 안녕하세요!</strong></h5>
+              <a class="nav-item nav-link" href="{% url 'accounts:index' %}"><strong>유저 목록</strong></a>
+              <a class="nav-item nav-link" href="{% url 'accounts:detail' user.id %}"><strong>My page</strong></a>
+              <a class="nav-item nav-link" href="{% url 'accounts:logout' %}"><strong>로그아웃</strong></a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'accounts:signup' %}"><strong>회원가입</strong></a>
+              <a class="nav-item nav-link" href="{% url 'accounts:login' %}"><strong>로그인</strong></a>
+            {% endif %}
+          </div>
+        </div>
+    </div>
+    
+  </nav>
+  <div class="row" style="padding-top: 5rem;padding-left:27rem;padding-right:2rem;">
+    <div class="col-12 col-md-9">
+      <!-- <div class="container"> -->
+      {% block body %}
+      {% endblock %}
+      <!-- </div> -->
+    </div>
+    <div class="col-12 col-md-3">
+      {% block body2 %}
+      {% endblock %}
+    </div>
+    <div class="col-4">
+      {%block body3%}
+      {%endblock%}
+    </div>
+  </div>
+  
+  {% bootstrap_javascript jquery='full' %}
+</body>
+</html>
