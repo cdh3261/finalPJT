@@ -1,1 +1,1 @@
-web: gunicorn lastpjt.wsgi --log-file -
+web: gunicorn Manage.wsgi --log-file -
