@@ -148,3 +148,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID=1
 LOGIN_REDIRECT_URL ='movies:index'
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+import django_heroku
+django_heroku.settings(locals())
